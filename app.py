@@ -63,6 +63,7 @@ elif user_option=='analytics':
         st.plotly_chart(fig)
 
         
+
     
     
     data3=obj.stop_varies_price()
@@ -79,9 +80,28 @@ elif user_option=='analytics':
     st.plotly_chart(fig)
 
 
-    
 
+    col1,col2=st.columns(2)
+    df_flights=obj.monthly_operated_flights()
+    with col1:
+       fig = px.bar(df_flights, x='month', y='num_flights', title='Highest Number of Flights Operated in June')
+       st.plotly_chart(fig)
+
+    with col2:
+        costly_day_df=obj.most_costly_day()
+        fig = px.bar(costly_day_df, x='day', y='avg price', title='Most costly day to fly is Thursday',color_discrete_sequence=['gray'])
+        fig.update_traces(width=0.6) 
+        st.plotly_chart(fig)
+
+
+
+
+
+
+
+    
 
 else:
     pass
 
+print(obj.monthly_operated_flights())

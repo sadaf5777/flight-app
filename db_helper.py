@@ -90,7 +90,23 @@ class DB:
         data=self.mycursor.fetchall()
         return data
 
-
+    def monthly_operated_flights(self):
+        self.mycursor.execute("""
+                              select  monthname(Date_of_Journey),count(*) from `cleaned_flights.csv`
+                                group by monthname(Date_of_Journey)
+                                order by count(*) desc
+                                """)
+        data=self.mycursor.fetchall()
+        return pd.DataFrame(data,columns=["month","num_flights"])
+        
+    def most_costly_day (self):
+        self.mycursor.execute("""
+                                    select dayname(Date_of_Journey),round(avg(Price))from `cleaned_flights.csv`
+                                    where dayname(Date_of_Journey)!= "Saturday" and dayname(Date_of_Journey)!="Sunday"
+                                    group by dayname(Date_of_Journey)
+                                    order by sum(Price) desc""")
+        data= self.mycursor.fetchall()
+        return pd.DataFrame(data,columns=["day","avg price"])
 
 bd=DB()
 
@@ -100,6 +116,6 @@ print(bd.bussiest_airport())
 print(bd.daily_number_of_flights())
 print(bd.airlines_avg_price())
 print(bd.stop_varies_price())
+print(bd.monthly_operated_flights())
 
-
-
+print(bd.most_costly_day())
