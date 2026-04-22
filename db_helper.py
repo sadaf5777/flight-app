@@ -20,9 +20,9 @@ class DB:
     def fetch_city_names (self):
         
         self.mycursor.execute("""
-                            SELECT Source FROM `flights`.`cleaned_flights.csv`
+                            SELECT Source FROM flights.`cleaned_flights`
                             UNION
-                            SELECT Destination FROM `flights`.`cleaned_flights.csv`
+                            SELECT Destination FROM flights.`cleaned_flights`
                               """)
         data=self.mycursor.fetchall()
         all_cities=[]
@@ -32,18 +32,18 @@ class DB:
     
 
     def fetch_source_destination (self,source,destination):
-        self.mycursor.execute("""SELECT * FROM `flights`.`cleaned_flights.csv`
+        self.mycursor.execute("""SELECT * FROM `flights`.`cleaned_flights`
                               WHERE Source='{}' AND Destination='{}'
                              """.format(source,destination))
         data=self.mycursor.fetchall()
-        return pd.DataFrame(data,columns=["Airline","date_of_journey","source","destination","route","dep_time","duration","total_stop","price"])
+        return pd.DataFrame(data,columns=["Airline","date_of_journey","source","destination","route","dep_time","duration","total_stop","price",'1,','1'])
     
 
     def fetch_ailline_frequency (self):
         airlines=[]
         frequency=[]
         self.mycursor.execute("""
-                              SELECT Airline , COUNT(*) FROM `flights`.`cleaned_flights.csv`
+                              SELECT Airline , COUNT(*) FROM flights.`cleaned_flights`
                               GROUP BY Airline 
                               """)
         data=self.mycursor.fetchall()
@@ -54,9 +54,9 @@ class DB:
     
     def bussiest_airport (self):
         self.mycursor.execute("""
-                                SELECT SOURCE,COUNT(*) FROM (SELECT Source FROM `flights`.`cleaned_flights.csv`
+                                SELECT SOURCE,COUNT(*) FROM (SELECT Source FROM flights.`cleaned_flights`
                                 UNION ALL
-                                SELECT Destination FROM `flights`.`cleaned_flights.csv`) t1
+                                SELECT Destination FROM flights.`cleaned_flights`) t1
                                 GROUP BY Source
                                 ORDER BY COUNT(*) DESC""")
         data=self.mycursor.fetchall()
@@ -68,14 +68,14 @@ class DB:
         days=[]
         count=[]
         self.mycursor.execute("""
-                              SELECT Date_of_Journey, COUNT(*) FROM `flights`.`cleaned_flights.csv`
+                              SELECT Date_of_Journey, COUNT(*) FROM flights.`cleaned_flights`
                               GROUP BY Date_of_Journey
                               """)
         data=self.mycursor.fetchall()
         return data
     
     def airlines_avg_price (self):
-        self.mycursor.execute("""SELECT Airline , round(avg(Price)) FROM `flights`.`cleaned_flights.csv`
+        self.mycursor.execute("""SELECT Airline , round(avg(Price)) FROM flights.`cleaned_flights`
                               GROUP BY Airline 
                               ORDER BY  round(avg(Price)) DESC """)
         data=self.mycursor.fetchall()
@@ -84,7 +84,7 @@ class DB:
 
     def stop_varies_price (self):
         self.mycursor.execute("""
-                               select airline , Total_stops,avg(Price) from `flights`.`cleaned_flights.csv`
+                               select airline , Total_stops,avg(Price) from flights.`cleaned_flights`
                                 GROUP BY airline , Total_stops
                                 ORDER BY avg(Price) DESC""")
         data=self.mycursor.fetchall()
@@ -92,7 +92,7 @@ class DB:
 
     def monthly_operated_flights(self):
         self.mycursor.execute("""
-                              select  monthname(Date_of_Journey),count(*) from `cleaned_flights.csv`
+                              select  monthname(Date_of_Journey),count(*) from `cleaned_flights`
                                 group by monthname(Date_of_Journey)
                                 order by count(*) desc
                                 """)
@@ -101,7 +101,7 @@ class DB:
         
     def most_costly_day (self):
         self.mycursor.execute("""
-                                    select dayname(Date_of_Journey),round(avg(Price))from `cleaned_flights.csv`
+                                    select dayname(Date_of_Journey),round(avg(Price))from `cleaned_flights`
                                     where dayname(Date_of_Journey)!= "Saturday" and dayname(Date_of_Journey)!="Sunday"
                                     group by dayname(Date_of_Journey)
                                     order by sum(Price) desc""")
