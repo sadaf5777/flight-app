@@ -1,8 +1,8 @@
-Dataset Limitations
+### Dataset Limitations
 
 The dataset used in this project contains a limited number of airline routes and flight records. Due to this limitation, flights between many city-to-city combinations were not available in the dataset.
 
-To handle missing route information clearly and consistently, routes for which no flight data was available were represented as "No Flight" in the analysis and visualizations.
+To handle missing route information clearly and consistently, routes for which no flight data was available were represented as "No Flight Exists" in the analysis and visualizations.
 
 As a result:
 
@@ -10,6 +10,8 @@ Some source–destination city pairs do not contain flight records.
 Certain routes have very limited observations.
 Route availability shown in the project is based only on the provided dataset.
 "No Flight" does not necessarily mean flights do not exist in reality; it only indicates that no corresponding data was available in the dataset.
+
+To verify this functionality, select Chennai as the source city and Kolkata as the destination city. The system should display some flights that exists .
 
 Despite these limitations, the project successfully demonstrates the complete data analysis workflow, including:
 
