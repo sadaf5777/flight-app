@@ -15,10 +15,10 @@ To verify this functionality, select Chennai as the source city and Kolkata as t
 
 Despite these limitations, the project successfully demonstrates the complete data analysis workflow, including:
 
-Data Cleaning
-Exploratory Data Analysis (EDA)
-Data Visualization
-Route Analysis
-Insight Generation
+** Data Cleaning
+** Exploratory Data Analysis (EDA)
+** Data Visualization
+** Route Analysis
+** Insight Generation
 
 This project is intended for learning and analytical demonstration purposes and may not represent the complete real-world airline network.
