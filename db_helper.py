@@ -25,6 +25,7 @@ class DB:
                             SELECT Destination FROM flights.`cleaned_flights`
                               """)
         data=self.mycursor.fetchall()
+        print(data)
         all_cities=[]
         for city in data :
             all_cities.append(city[0])
